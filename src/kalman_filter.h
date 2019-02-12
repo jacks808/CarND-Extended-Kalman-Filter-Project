@@ -46,7 +46,9 @@ class KalmanFilter {
    */
   void UpdateEKF(const Eigen::VectorXd &z);
 
-  // state vector
+  Eigen::VectorXd h(const Eigen::VectorXd &x);
+
+  // state vector(px, py, vx, vy)
   Eigen::VectorXd x_;
 
   // state covariance matrix
@@ -55,13 +57,13 @@ class KalmanFilter {
   // state transition matrix
   Eigen::MatrixXd F_;
 
-  // process covariance matrix
+  // process noise covariance matrix
   Eigen::MatrixXd Q_;
 
-  // measurement matrix
+  // measurement matrix: the value how to affect x
   Eigen::MatrixXd H_;
 
-  // measurement covariance matrix
+  // measurement noise covariance matrix
   Eigen::MatrixXd R_;
 };
 

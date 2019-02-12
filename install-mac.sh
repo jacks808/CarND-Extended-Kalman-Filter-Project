@@ -8,9 +8,10 @@ mkdir build
 export PKG_CONFIG_PATH=/usr/local/opt/openssl/lib/pkgconfig 
 cd build
 OPENSSL_VERSION=`openssl version -v | cut -d' ' -f2`
+OPENSSL_VERSION="1.0.2q" # brew bersion error, so that hard code this.
 cmake -DOPENSSL_ROOT_DIR=$(brew --cellar openssl)/$OPENSSL_VERSION -DOPENSSL_LIBRARIES=$(brew --cellar openssl)/$OPENSSL_VERSION/lib ..
 make 
 sudo make install
 cd ..
 cd ..
-sudo rm -r uWebSockets
+#sudo rm -r uWebSockets
