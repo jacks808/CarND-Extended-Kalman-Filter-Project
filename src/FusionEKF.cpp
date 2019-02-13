@@ -90,7 +90,7 @@ void FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pack) {
     if (DEVELOP_MODE) {
       cout << "EKF first measurement " << endl;
     }
-    ekf_.x_ = VectorXd(4);
+    ekf_.x_ = VectorXd(X_SIZE);
     ekf_.x_ << 1, 1, 1, 1;
 
     double px, py, vx, vy;
@@ -170,7 +170,7 @@ void FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pack) {
   double dt_3 = pow(dt, 3);
   double dt_4 = pow(dt, 4);
 
-  ekf_.Q_ = MatrixXd(4, 4);
+  ekf_.Q_ = MatrixXd(X_SIZE, X_SIZE);
   ekf_.Q_ <<
       dt_4 / 4 * noise_ax,  0,                    dt_3 / 2 * noise_ax,  0,
       0,                    dt_4 / 4 * noise_ay,  0,                    dt_3 / 2 * noise_ay,

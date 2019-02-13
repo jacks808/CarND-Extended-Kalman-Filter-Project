@@ -34,6 +34,13 @@ class Tools {
    */
   static float ThetaValueCorrection(float theta);
 
+  /**
+   * calculate speed v
+   * @param estimation
+   * @return
+   */
+  static double CalculateV(const Eigen::VectorXd &estimation);
+
 };
 
 #endif  // TOOLS_H_

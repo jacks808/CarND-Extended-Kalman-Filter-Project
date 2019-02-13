@@ -1,5 +1,6 @@
-#include "tools.h"
 #include <iostream>
+#include "tools.h"
+#include "config.h"
 
 using Eigen::VectorXd;
 using Eigen::MatrixXd;
@@ -18,7 +19,7 @@ Tools::~Tools() {}
 VectorXd Tools::CalculateRMSE(const vector<VectorXd> &estimations,
                               const vector<VectorXd> &ground_truth) {
   // This code is basically right from the Udacity lectures.
-  VectorXd rmse(4);
+  VectorXd rmse(X_SIZE);
   rmse << 0, 0, 0, 0; // init
 
   // check the validity of the following inputs:
@@ -52,6 +53,18 @@ VectorXd Tools::CalculateRMSE(const vector<VectorXd> &estimations,
 }
 
 /**
+ * speed
+ * @param estimation
+ * @return
+ */
+double Tools::CalculateV(const Eigen::VectorXd &estimation){
+  double vx = estimation[2];
+  double vy = estimation[3];
+
+  return sqrt((pow(vx, 2) + pow(vy, 2)));
+}
+
+/**
  * Calculate a Jacobian here.
  * @param x
  * @return
@@ -59,7 +72,7 @@ VectorXd Tools::CalculateRMSE(const vector<VectorXd> &estimations,
 MatrixXd Tools::CalculateJacobian(const VectorXd &x) {
   double px, py, vx, vy;
 
-  MatrixXd Hj(3,4);
+  MatrixXd Hj(3, X_SIZE);
 
   //recover state parameters
   px = x[0];

@@ -119,18 +119,18 @@ int main() {
           iss >> vx_gt;
           iss >> vy_gt;
 
-          VectorXd gt_values(4);
-          gt_values(0) = x_gt;
-          gt_values(1) = y_gt;
-          gt_values(2) = vx_gt;
-          gt_values(3) = vy_gt;
-          ground_truth.push_back(gt_values);
+          VectorXd ground_truth_values(X_SIZE);
+          ground_truth_values(0) = x_gt;
+          ground_truth_values(1) = y_gt;
+          ground_truth_values(2) = vx_gt;
+          ground_truth_values(3) = vy_gt;
+          ground_truth.push_back(ground_truth_values);
 
           // Call ProcessMeasurement(measurement_pack) for Kalman filter
           fusionEKF.ProcessMeasurement(measurement_pack);
 
           // Push the current estimated x,y position from the Kalman filter's to state vector
-          VectorXd estimate(4);
+          VectorXd estimate(X_SIZE);
 
           double estimate_px = fusionEKF.ekf_.x_(0);
           double estimate_py = fusionEKF.ekf_.x_(1);
@@ -155,6 +155,13 @@ int main() {
           msg_json["rmse_vx"] = RMSE(2);
           msg_json["rmse_vy"] = RMSE(3);
           auto msg = "42[\"estimate_marker\"," + msg_json.dump() + "]";
+
+          auto e_v = Tools::CalculateV(estimate);
+          auto g_v = Tools::CalculateV(ground_truth_values);
+          if (DEVELOP_MODE) {
+            std::cout << "Estimate v is: " << e_v << ",\t real v: " << g_v << "\t diff: "
+                      << (g_v - e_v) << std::endl;
+          }
 
           // debug output
           if (DEVELOP_MODE) {
